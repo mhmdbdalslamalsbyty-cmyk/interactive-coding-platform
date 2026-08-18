@@ -1,0 +1,10 @@
+{
+  "entry": "main.typ",
+  "metadata": {
+    "author": "المهندس محمد عادل السبتاني",
+    "subtitle": "منصة السبتاني",
+    "title": "ملخص HTML وCSS السريع"
+  },
+  "mode": "report",
+  "theme": "report-theme.typ"
+}

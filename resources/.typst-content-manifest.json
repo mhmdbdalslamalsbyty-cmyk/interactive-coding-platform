@@ -1,0 +1,11 @@
+{
+  "task_kind": "new-document",
+  "output": "pdf",
+  "signals": ["arabic-learning-resources", "reference-sheets"],
+  "hard_constraints": ["Arabic RTL text", "downloadable PDFs", "code examples"],
+  "content_features": {
+    "code_blocks": 125,
+    "defined_terms": 28,
+    "portrait_images": 0
+  }
+}

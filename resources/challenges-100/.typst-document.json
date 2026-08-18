@@ -1,0 +1,10 @@
+{
+  "entry": "main.typ",
+  "metadata": {
+    "author": "المهندس محمد عادل السبتاني",
+    "subtitle": "Python وHTML/CSS وC++",
+    "title": "100 تحدي برمجي مع الحلول"
+  },
+  "mode": "report",
+  "theme": "report-theme.typ"
+}

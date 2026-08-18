@@ -1,0 +1,10 @@
+{
+  "entry": "main.typ",
+  "metadata": {
+    "author": "المهندس محمد عادل السبتاني",
+    "subtitle": "Python وHTML وC++",
+    "title": "خطة مذاكرة 30 يوماً"
+  },
+  "mode": "report",
+  "theme": "report-theme.typ"
+}

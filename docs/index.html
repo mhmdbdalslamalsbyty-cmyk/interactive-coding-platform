@@ -1,99 +1,91 @@
 <!doctype html>
-<!-- ورشة الإتقان: صفحة عربية ثابتة مستقلة قابلة للنشر عبر GitHub Pages. -->
+<!-- منصة السبتاني — ورشة الإنجاز: واجهة عربية مستقلة منشورة من docs عبر GitHub Pages. -->
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="مسار الكود: منصة عربية عملية لتعلم Python وHTML/CSS وC++." />
-  <title>مسار الكود | تعلّم واكتب وجرّب</title>
+  <meta name="description" content="منصة السبتاني: دروس عربية تفاعلية ومشاريع وتحديات في Python وHTML/CSS وC++." />
+  <title>منصة السبتاني | تعلّم وابنِ واحتفل بإنجازك</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Kufi+Arabic:wght@500;700&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ورشة الإنجاز: لا يُخفى عنصر إنهاء التركيز مع القوائم المحيطة. */
+    body.focus-mode .topbar{display:flex!important;position:static!important;height:0!important;min-height:0!important;padding:0!important;margin:0!important;overflow:visible!important;background:transparent!important;border:0!important;box-shadow:none!important;visibility:visible!important}
+    body.focus-mode .topbar>*{visibility:hidden!important}
+    body.focus-mode #focus-toggle{position:fixed!important;left:1rem!important;bottom:1rem!important;z-index:9999!important;display:inline-flex!important;visibility:visible!important;background:#132033!important;color:#fffdf8!important;border:2px solid #f26722!important;padding:.7rem .9rem!important;box-shadow:4px 4px 0 #f26722!important}
+    body.focus-mode #focus-toggle span{display:inline!important}
+  </style>
   <script src="https://cdn.jsdelivr.net/npm/brython@3.12.4/brython.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/brython@3.12.4/brython_stdlib.js"></script>
 </head>
 <body onload="brython()">
   <a class="skip-link" href="#lesson-title">انتقل إلى محتوى الدرس</a>
   <div class="app-shell">
-    <aside class="sidebar" aria-label="فهرس الدروس">
-      <a class="brand" href="#home" aria-label="مسار الكود: الرئيسية">
-        <span class="brand-mark" aria-hidden="true">⌁</span>
-        <span>مسار <b>الكود</b></span>
-      </a>
-      <div class="profile-card">
-        <span class="eyebrow">تقدمك المحفوظ محلياً</span>
+    <aside class="sidebar" aria-label="فهرس منصة السبتاني">
+      <button id="home-button" class="brand" type="button" aria-label="العودة إلى الرئيسية"><span class="brand-mark brand-code-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>منصة <b>السبتاني</b><small>ورشة الإنجاز</small></span></button>
+      <div class="profile-card achievement-card">
+        <div class="profile-card-top"><span class="eyebrow">لوحة إنجازك</span><strong id="points-count">0 نقطة</strong></div>
         <div class="progress-line"><span id="sidebar-progress"></span></div>
-        <strong id="progress-label">0 من 18 درساً</strong>
+        <strong id="progress-label">0 من 28 درساً</strong>
+        <small id="achievement-note">ابدأ بمحطة واحدة اليوم.</small>
       </div>
-      <nav id="lesson-nav" class="lesson-nav"></nav>
-      <div class="sidebar-footer">اكتب سطراً، ثم شاهد فكرته تعمل.</div>
+      <div class="side-tools">
+        <button class="side-tool active" data-view="home" type="button">⌂ <span>المحطات</span></button>
+        <button class="side-tool" data-view="projects" type="button">▣ <span>المشاريع العملية</span></button>
+        <button class="side-tool" data-view="challenges" type="button">⚑ <span>التحديات</span></button>
+        <button class="side-tool" data-view="certificates" type="button">✦ <span>الشهادات</span></button>
+      </div>
+      <nav id="lesson-nav" class="lesson-nav" aria-label="دروس المسارات"></nav>
+      <div class="sidebar-footer">المحطة المكتملة تضيف نقاطاً وتحركك نحو شهادة مسارك.</div>
     </aside>
 
     <main class="main-area">
       <header class="topbar">
-        <button id="menu-button" class="icon-button mobile-only" type="button" aria-label="فتح الفهرس">☰</button>
-        <div class="breadcrumb"><span>مسار الكود</span><i>／</i><span id="crumb-track">البداية</span></div>
+        <button id="menu-button" class="menu-button" type="button" aria-label="فتح أو إغلاق القائمة" aria-expanded="false"><span></span><span></span><span></span></button>
+        <div class="breadcrumb"><span>منصة السبتاني</span><i>／</i><span id="crumb-track">البداية</span></div>
         <div class="top-actions">
+          <label class="search-wrap"><span aria-hidden="true">⌕</span><input id="lesson-search" type="search" autocomplete="off" placeholder="ابحث عن درس أو مشروع" aria-label="البحث عن درس أو مشروع" /></label>
+          <button id="focus-toggle" class="text-button focus-button" type="button">◉ <span>وضع التركيز</span></button>
           <button id="theme-toggle" class="theme-button" type="button" aria-label="تبديل الوضع الليلي">◐ <span>الوضع الليلي</span></button>
-          <button id="random-lesson" class="text-button" type="button">درس عشوائي</button>
+          <button id="random-lesson" class="text-button random-button" type="button">درس عشوائي</button>
         </div>
       </header>
 
-      <section id="home" class="home-view">
+      <section id="home" class="home-view page-view">
         <div class="hero">
-          <div class="hero-copy">
-            <p class="eyebrow orange">من القراءة إلى التنفيذ</p>
-            <h1>تعلم البرمجة <em>بيدك</em> لا بالمشاهدة فقط.</h1>
-            <p class="hero-description">دروس عربية قصيرة، محررات حية، اختبارات تتكلم معك، وكتب منظمة يمكنك تحميلها والعودة إليها متى شئت.</p>
-            <div class="hero-actions">
-              <button class="primary-button" data-open="python-basics">ابدأ أول درس <span>←</span></button>
-              <a class="quiet-link" href="#books">حمّل الكتب التعليمية</a>
-            </div>
-          </div>
-          <div class="hero-art" aria-hidden="true"><span class="art-code">{&nbsp; }<br>&lt; / &gt;</span><span class="art-orbit"></span><span class="art-dot"></span></div>
-          <div class="hero-stamp"><b>18</b><span>محطة تعلم<br>وتطبيق</span></div>
+          <div class="hero-copy"><p class="eyebrow orange">ورشة الإنجاز — تعلّم، طبّق، واحتفل</p><h1>البرمجة تصبح <em>مهارةً</em> عندما تبني بها.</h1><p class="hero-description">منصة السبتاني تجمع الدروس العربية المختصرة، التجارب الحية، المشاريع الكاملة، والتحديات المتدرجة في مسار واضح من أول سطر إلى أول إنجاز قابل للعرض.</p><div class="hero-actions"><button class="primary-button" data-open="python-basics">ابدأ أول محطة <span>←</span></button><button class="quiet-button" data-view="projects" type="button">شاهد المشاريع</button></div></div>
+          <div class="hero-art" aria-hidden="true"><span class="art-code">{&nbsp; }<br>&lt; / &gt;</span><span class="art-orbit"></span><span class="art-dot"></span><span class="measure a"></span><span class="measure b"></span></div>
+          <div class="hero-stamp"><b id="hero-lessons">28</b><span>محطة تعلم<br>وتطبيق عملي</span></div>
         </div>
 
-        <section class="track-section" aria-labelledby="tracks-heading">
-          <div class="section-heading"><p class="eyebrow">اختر مسارك</p><h2 id="tracks-heading">ثلاث لغات، مسار واضح</h2></div>
-          <div class="track-list">
-            <article class="track-card python"><div class="track-art" aria-hidden="true">print(<i>"فكرة"</i>)</div><div><p class="track-index">المسار 01</p><h3>Python</h3><p>ابدأ بالمنطق، البيانات، الدوال والمشاريع الصغيرة.</p><button data-open="python-basics">افتح المسار <span>←</span></button></div></article>
-            <article class="track-card web"><div class="track-art" aria-hidden="true">&lt;section&gt;<br><i>متجاوب</i><br>&lt;/section&gt;</div><div><p class="track-index">المسار 02</p><h3>HTML &amp; CSS</h3><p>ابنِ هيكلاً ذا معنى، ثم اجعله متجاوباً وواضحاً.</p><button data-open="html-structure">افتح المسار <span>←</span></button></div></article>
-            <article class="track-card cpp"><div class="track-art" aria-hidden="true">vector&lt;<i>learn</i>&gt;<br>{&nbsp;}&nbsp;</div><div><p class="track-index">المسار 03</p><h3>C++</h3><p>افهم الأداء والحاويات والذاكرة الآمنة من البداية.</p><button data-open="cpp-basics">افتح المسار <span>←</span></button></div></article>
-          </div>
-        </section>
+        <section class="stats-ribbon" aria-label="إحصاءات المنصة"><div><b>3</b><span>مسارات عملية</span></div><div><b>9</b><span>مشاريع مكتملة</span></div><div><b>60</b><span>تحدياً داخل المنصة</span></div><div><b>5</b><span>موارد PDF جديدة</span></div></section>
 
-        <section id="books" class="books-section" aria-labelledby="books-title">
-          <div class="section-heading"><p class="eyebrow">مراجعك خارج المنصة</p><h2 id="books-title">الكتب التعليمية</h2><p>كل كتاب مرتب حسب الفصول ويحتوي أمثلة وتمارين عملية.</p></div>
-          <div class="books-grid">
-            <a class="book-card" href="downloads/learn-python-ar.pdf" download><span>PY</span><div><h3>تعلم Python</h3><p>الأساسيات إلى المشاريع العملية</p></div><b>تحميل PDF</b></a>
-            <a class="book-card" href="downloads/learn-html-css-ar.pdf" download><span>WEB</span><div><h3>تعلم HTML وCSS</h3><p>وسوم، تخطيط، واستجابة للشاشات</p></div><b>تحميل PDF</b></a>
-            <a class="book-card" href="downloads/learn-cpp-ar.pdf" download><span>C++</span><div><h3>تعلم C++</h3><p>الحاويات والذاكرة والكائنات</p></div><b>تحميل PDF</b></a>
-          </div>
-        </section>
+        <section class="track-section" aria-labelledby="tracks-heading"><div class="section-heading"><p class="eyebrow">اختر مسارك</p><h2 id="tracks-heading">ثلاث لغات، مسار واضح</h2><p>كل شريط ورشة يقودك من المفهوم إلى تجربة عملية ثم مشروع وشهادة إتمام.</p></div><div class="track-list"><article class="track-card python"><div class="track-art" aria-hidden="true">print(<i>"فكرة"</i>)</div><div><p class="track-index">المسار 01 · منطق وبيانات</p><h3>Python</h3><p>28 محطة لتتعلم البرمجة الأساسية، JSON، وواجهات API بأسلوب تطبيقي.</p><button data-open="python-basics">افتح المسار <span>←</span></button></div></article><article class="track-card web"><div class="track-art" aria-hidden="true">&lt;section&gt;<br><i>متجاوب</i><br>&lt;/section&gt;</div><div><p class="track-index">المسار 02 · واجهة لها معنى</p><h3>HTML &amp; CSS</h3><p>من الوسم الدلالي إلى Flexbox وGrid والاستجابة والوصول.</p><button data-open="html-structure">افتح المسار <span>←</span></button></div></article><article class="track-card cpp"><div class="track-art" aria-hidden="true">vector&lt;<i>learn</i>&gt;<br>{&nbsp;}&nbsp;</div><div><p class="track-index">المسار 03 · أداء وسلامة</p><h3>C++</h3><p>الأساسيات والحاويات والذاكرة والقوالب والاستثناءات.</p><button data-open="cpp-basics">افتح المسار <span>←</span></button></div></article></div></section>
+
+        <section class="workshop-overview split-section"><div class="section-heading"><p class="eyebrow">ثلاثة مسارات للتطبيق</p><h2>مشاريع تبني بها دليلاً على مهارتك</h2><p>تسع صفحات مشروع مستقلة: الهدف، خطوات التنفيذ، والكود النهائي القابل للدراسة والتعديل.</p><button class="primary-button" data-view="projects" type="button">استكشف المشاريع <span>←</span></button></div><div class="workshop-tiles"><div class="workshop-tile"><span>01</span><b>Python</b><p>لوحة مهام، مصروفات، وقارئ بيانات API.</p></div><div class="workshop-tile teal"><span>02</span><b>HTML/CSS</b><p>ملف شخصي ولوحة إحصاءات وصفحة هبوط.</p></div><div class="workshop-tile dark-tile"><span>03</span><b>C++</b><p>محلل درجات وسجل مخزون ومحوّل آمن.</p></div></div></section>
+
+        <section class="challenge-banner"><div><p class="eyebrow orange">محطة الاختبار</p><h2>ستون تحدياً، والحل يكشف عندما تكون مستعداً.</h2><p>اختر مسارك، حل التحدي أولاً، ثم اظهر الحل وسجّل إنجازك لتحصل على نقاط إضافية.</p></div><button class="challenge-cta" data-view="challenges" type="button">افتح التحديات <span>↙</span></button></section>
+
+      <section id="resources" class="books-section workshop-archive" aria-labelledby="books-title"><div class="archive-ruler" aria-hidden="true"><span>ARCHIVE / 2026</span><i></i><span>05 FILES</span></div><div class="section-heading"><p class="eyebrow">أرشيف الورشة / مراجعك خارج المنصة</p><h2 id="books-title">الكتب والموارد القابلة للتحميل</h2><p>ملفات تنفيذية منظمة: الكتب الأساسية، الملخصات السريعة، بنك التحديات وخطة الدراسة.</p></div><div class="books-grid"><a class="book-card" href="downloads/learn-python-ar.pdf" download><span>PY</span><div><h3>تعلم Python</h3><p>الأساسيات إلى المشاريع العملية</p></div><b>ملف أساسي · PDF ↓</b></a><a class="book-card" href="downloads/learn-html-css-ar.pdf" download><span>WEB</span><div><h3>تعلم HTML وCSS</h3><p>وسوم، تخطيط، واستجابة</p></div><b>ملف أساسي · PDF ↓</b></a><a class="book-card" href="downloads/learn-cpp-ar.pdf" download><span>C++</span><div><h3>تعلم C++</h3><p>الحاويات والذاكرة والكائنات</p></div><b>ملف أساسي · PDF ↓</b></a><a class="resource-card" href="resources/cheats-python.pdf" download><span>01</span><b>ملخص Python السريع</b><small>مرجع سريع · جاهز</small></a><a class="resource-card" href="resources/cheats-html-css.pdf" download><span>02</span><b>ملخص HTML/CSS</b><small>مرجع سريع · جاهز</small></a><a class="resource-card" href="resources/cheats-cpp.pdf" download><span>03</span><b>ملخص C++ السريع</b><small>مرجع سريع · جاهز</small></a><a class="resource-card" href="resources/challenges-100.pdf" download><span>100</span><b>100 تحدي مع الحلول</b><small>بنك مران · جاهز</small></a><a class="resource-card" href="resources/study-plan-30-days.pdf" download><span>30</span><b>خطة مذاكرة 30 يوماً</b><small>خطة تنفيذ · جاهز</small></a></div></section>
       </section>
 
-      <section id="lesson-view" class="lesson-view" hidden>
-        <div class="lesson-intro">
-          <div><p id="lesson-meta" class="eyebrow orange"></p><h1 id="lesson-title" tabindex="-1"></h1><p id="lesson-summary"></p></div>
-          <button id="complete-button" class="complete-button" type="button">وضع علامة مكتمل</button>
-        </div>
-        <div class="lesson-layout">
-          <article class="lesson-content">
-            <div class="step-label"><span>01</span> افهم الفكرة</div>
-            <div id="lesson-explanation"></div>
-            <div class="tip-box"><strong>تذكّر</strong><p id="lesson-tip"></p></div>
-            <section class="quiz" aria-labelledby="quiz-title"><div class="step-label"><span>02</span> اختبر فهمك</div><h2 id="quiz-title">اختبار قصير</h2><p id="quiz-question"></p><form id="quiz-options"></form><button id="check-quiz" class="primary-button" type="button">تحقق من الإجابة</button><p id="quiz-feedback" class="quiz-feedback" role="status"></p></section>
-          </article>
-          <aside class="code-studio" aria-label="محرر التجربة"><div class="studio-header"><div><span class="studio-dot"></span><b id="editor-label">تجربة الكود</b></div><span id="runtime-label">جاهز للتشغيل</span></div><textarea id="code-editor" dir="ltr" spellcheck="false" aria-label="محرر الكود"></textarea><div class="studio-actions"><button id="run-code" class="run-button" type="button">▶ تشغيل</button><button id="reset-code" class="text-button" type="button">استعادة المثال</button></div><pre id="code-output" aria-live="polite">اختر «تشغيل» لتظهر النتيجة هنا.</pre><iframe id="html-preview" title="معاينة HTML وCSS" sandbox="allow-scripts" hidden></iframe></aside>
-        </div>
-        <div class="lesson-footer"><button id="prev-lesson" class="nav-lesson" type="button">→ الدرس السابق</button><button id="next-lesson" class="nav-lesson accent" type="button">الدرس التالي ←</button></div>
-      </section>
+      <section id="lesson-view" class="lesson-view page-view" hidden><div class="lesson-intro"><div><p id="lesson-meta" class="eyebrow orange"></p><h1 id="lesson-title" tabindex="-1"></h1><p id="lesson-summary"></p></div><div class="lesson-actions"><button id="complete-button" class="complete-button" type="button">وضع علامة مكتمل</button><span class="station-stamp">محطة تعلم</span></div></div><div class="lesson-layout"><article class="lesson-content"><div class="step-label"><span>01</span> افهم الفكرة</div><div id="lesson-explanation"></div><div class="tip-box"><strong>تذكّر</strong><p id="lesson-tip"></p></div><section class="quiz" aria-labelledby="quiz-title"><div class="step-label"><span>02</span> اختبر فهمك</div><h2 id="quiz-title">اختبار قصير</h2><p id="quiz-question"></p><form id="quiz-options"></form><button id="check-quiz" class="primary-button" type="button">تحقق من الإجابة</button><p id="quiz-feedback" class="quiz-feedback" role="status"></p></section></article><aside class="code-studio" aria-label="محرر التجربة"><div class="studio-header"><div><span class="studio-dot"></span><b id="editor-label">تجربة الكود</b></div><span id="runtime-label">جاهز للتشغيل</span></div><textarea id="code-editor" dir="ltr" spellcheck="false" aria-label="محرر الكود"></textarea><div class="studio-actions"><button id="run-code" class="run-button" type="button">▶ تشغيل</button><button id="reset-code" class="text-button" type="button">استعادة المثال</button></div><pre id="code-output" aria-live="polite">اختر «تشغيل» لتظهر النتيجة هنا.</pre><iframe id="html-preview" title="معاينة HTML وCSS" sandbox="allow-scripts" hidden></iframe></aside></div><div class="lesson-footer"><button id="prev-lesson" class="nav-lesson" type="button">→ الدرس السابق</button><button id="next-lesson" class="nav-lesson accent" type="button">الدرس التالي ←</button></div></section>
+
+      <section id="projects-view" class="content-view page-view" hidden><div class="view-heading"><p class="eyebrow orange">مختبر البناء</p><h1>مشاريع عملية كاملة</h1><p>اختر مشروعاً لتفتح صفحة خطواته وكوده النهائي. أكمل المشروع بعد أن تبنيه أو تعدله بطريقتك.</p></div><div id="project-filter" class="filter-row"><button class="filter-chip active" data-project-track="all">الكل</button><button class="filter-chip" data-project-track="Python">Python</button><button class="filter-chip" data-project-track="HTML & CSS">HTML/CSS</button><button class="filter-chip" data-project-track="C++">C++</button></div><div id="project-list" class="project-grid"></div><article id="project-detail" class="project-detail" hidden></article></section>
+
+      <section id="challenges-view" class="content-view page-view" hidden><div class="view-heading"><p class="eyebrow orange">ساحة المران</p><h1>تحديات البرمجة</h1><p>لكل مسار 20 تحدياً متدرجاً. جرّب بنفسك أولاً، ثم اكشف الفكرة وسجل التحدي المنجز لتحصل على نقاط.</p></div><div id="challenge-tabs" class="filter-row"><button class="filter-chip active" data-challenge-track="Python">Python</button><button class="filter-chip" data-challenge-track="HTML & CSS">HTML/CSS</button><button class="filter-chip" data-challenge-track="C++">C++</button></div><div id="challenge-list" class="challenge-list"></div></section>
+
+      <section id="certificates-view" class="content-view page-view" hidden><div class="view-heading"><p class="eyebrow orange">ختم الإنجاز</p><h1>شهادات المسارات</h1><p>بعد إكمال جميع دروس مسار، افتح شهادة إتمام ذاتية باسمك التعليمي واطبعها أو احفظها PDF من المتصفح.</p></div><div id="certificate-paths" class="certificate-paths"></div></section>
+
+      <section id="search-view" class="content-view page-view" hidden><div class="view-heading"><p class="eyebrow orange">نتائج البحث</p><h1>ابحث ثم انتقل إلى المحطة</h1><p id="search-summary">اكتب كلمة للبحث في الدروس والمشاريع.</p></div><div id="search-results" class="search-results"></div></section>
+
+      <footer class="site-footer"><div><span class="footer-mark">⌁</span><b>منصة السبتاني</b><p>مساحة عربية عملية لتحويل الفضول إلى مهارة ومشروع وإنجاز.</p></div><div><span class="eyebrow">تواصل</span><a href="https://wa.me/967770288334" target="_blank" rel="noreferrer">واتساب: +967 770 288 334</a><a href="https://www.youtube.com/@ai_studio111" target="_blank" rel="noreferrer">YouTube: ai_studio111</a></div><div><span class="eyebrow">صمم للممارسة</span><p>المنصة تحفز التطبيق، والشهادات توثق الإنجاز الذاتي داخل المسار.</p></div></footer>
     </main>
   </div>
+  <div id="certificate-modal" class="certificate-modal" role="dialog" aria-modal="true" aria-labelledby="certificate-title" hidden><div class="certificate-paper"><button id="close-certificate" class="certificate-close" type="button" aria-label="إغلاق الشهادة">×</button><div class="certificate-border"><p class="certificate-kicker">منصة السبتاني · ورشة الإنجاز</p><div class="certificate-seal">⌁<small>إنجاز</small></div><h2 id="certificate-title">شهادة إتمام ذاتية</h2><p>تُمنح إلى</p><h3>المهندس محمد عادل السبتاني</h3><p>إتماماً لمسار <strong id="certificate-track">Python</strong> في منصة السبتاني، بعد المرور بالدروس والتطبيقات العملية الخاصة بالمسار.</p><div class="certificate-signatures"><div><span>التاريخ</span><b id="certificate-date"></b></div><div class="signature"><span>الموقّع</span><b>المهندس محمد عادل السبتاني</b></div></div><small class="certificate-note">وثيقة إنجاز ذاتي تعليمية وليست اعتماداً أكاديمياً.</small></div><div class="certificate-actions"><button id="print-certificate" class="primary-button" type="button">طباعة / حفظ PDF</button></div></div></div>
   <div id="toast" class="toast" role="status"></div>
-  <script src="lessons/catalog.js"></script>
-  <script src="script.js"></script>
+  <script src="lessons/catalog.js"></script><script src="lessons/extension.js"></script><script src="script.js"></script>
 </body>
 </html>
