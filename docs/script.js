@@ -1,4 +1,5 @@
 /* منصة السبتاني — ورشة الإنجاز: تنقل، نقاط، بحث، تحديات، شهادات ومحررات تعليمية. */
+// ورشة الإنجاز: منطق خفيف يحافظ على التعلم العملي، الاستجابة الفورية، والخصوصية المحلية.
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 const nav = $('#lesson-nav');
@@ -21,6 +22,12 @@ function updateDashboard(){
   $('#hero-lessons').textContent = total;
   $('#achievement-note').textContent = completed.size ? `أكملت ${percent}% من المحطات · استمر.` : 'ابدأ بمحطة واحدة اليوم.';
 }
+function learnerName(){ return localStorage.getItem('alsabtani-learner-name')?.trim() || 'متعلم منصة السبتاني'; }
+function saveLearnerName(value){
+  const clean = value.trim().replace(/\s+/g, ' ');
+  if (clean) localStorage.setItem('alsabtani-learner-name', clean); else localStorage.removeItem('alsabtani-learner-name');
+  $('#certificate-recipient').textContent = learnerName();
+}
 function setMenuOpen(open, returnFocus = false){
   const wasOpen = document.body.classList.contains('menu-open');
   document.body.classList.toggle('menu-open', open);
@@ -32,6 +39,7 @@ function setRuntimeState(running){
   const runButton = $('#run-code');
   runButton.disabled = running;
   runButton.setAttribute('aria-busy', String(running));
+  runButton.textContent = running ? '⌛ قيد التشغيل' : '▶ تشغيل';
   $('#code-studio').setAttribute('aria-busy', String(running));
   $('#runtime-label').textContent = running ? 'قيد التنفيذ…' : runtimeLabel();
 }
@@ -124,11 +132,11 @@ function renderChallenges(){
   $$('.solution-toggle').forEach(button => button.addEventListener('click', () => { const solution=$(`#solution-${button.dataset.solution}`); const hidden=solution.hidden; solution.hidden=!hidden; button.textContent=hidden?'إخفاء الحل':'إظهار الحل'; }));
   $$('.solve-toggle').forEach(button => button.addEventListener('click', () => { const key=`${activeChallengeTrack}-${button.dataset.solve}`; solvedChallenges.has(key)?solvedChallenges.delete(key):solvedChallenges.add(key); saveState(); updateDashboard(); renderChallenges(); toast(solvedChallenges.has(key)?'سُجل التحدي وأضيفت 5 نقاط.':'أزيلت علامة إنجاز التحدي.'); }));
 }
-function openCertificates(){ setView('certificates'); $('#certificate-paths').innerHTML = tracks.map(track => `<article class="certificate-card ${trackDone(track)?'unlocked':''}"><div class="certificate-mini-seal">⌁</div><p class="eyebrow">${escapeHtml(track)} · ${trackProgress(track)} محطة</p><h2>شهادة إتمام ${escapeHtml(track)}</h2><p>${trackDone(track)?'أكملت محطات هذا المسار. افتح الشهادة واطبعها.':'أكمل جميع دروس المسار لتفتح شهادة الإنجاز الذاتية.'}</p><button class="${trackDone(track)?'primary-button':'locked-button'}" data-certificate="${track}" type="button">${trackDone(track)?'افتح الشهادة':'الشهادة مقفلة'}</button></article>`).join(''); $$('.certificate-card [data-certificate]').forEach(button => button.addEventListener('click', () => showCertificate(button.dataset.certificate))); }
-function showCertificate(track){ if (!trackDone(track)) { toast(`أكمل محطات ${track} أولاً لفتح الشهادة.`); return; } $('#certificate-track').textContent=track; $('#certificate-date').textContent=new Intl.DateTimeFormat('ar-YE',{year:'numeric',month:'long',day:'numeric'}).format(new Date()); $('#certificate-modal').hidden=false; setTimeout(() => $('#close-certificate').focus(), 0); }
-function closeCertificate(){ $('#certificate-modal').hidden=true; }
+function openCertificates(){ setView('certificates'); $('#learner-name').value = localStorage.getItem('alsabtani-learner-name') || ''; $('#certificate-paths').innerHTML = tracks.map(track => `<article class="certificate-card ${trackDone(track)?'unlocked':''}"><div class="certificate-mini-seal">⌁</div><p class="eyebrow">${escapeHtml(track)} · ${trackProgress(track)} محطة</p><h2>شهادة إتمام ${escapeHtml(track)}</h2><p>${trackDone(track)?`أكملت محطات هذا المسار. ستُطبع باسم «${escapeHtml(learnerName())}».`:'أكمل جميع دروس المسار لتفتح شهادة الإنجاز الذاتية.'}</p><button class="${trackDone(track)?'primary-button':'locked-button'}" data-certificate="${track}" type="button">${trackDone(track)?'افتح الشهادة':'الشهادة مقفلة'}</button></article>`).join(''); $$('.certificate-card [data-certificate]').forEach(button => button.addEventListener('click', () => showCertificate(button.dataset.certificate))); }
+function showCertificate(track){ if (!trackDone(track)) { toast(`أكمل محطات ${track} أولاً لفتح الشهادة.`); return; } $('#certificate-recipient').textContent=learnerName(); $('#certificate-track').textContent=track; $('#certificate-date').textContent=new Intl.DateTimeFormat('ar-YE',{year:'numeric',month:'long',day:'numeric'}).format(new Date()); $('#certificate-modal').hidden=false; document.body.classList.add('modal-open'); setTimeout(() => $('#close-certificate').focus(), 0); }
+function closeCertificate(){ $('#certificate-modal').hidden=true; document.body.classList.remove('modal-open'); }
 function searchContent(value){
-  const keyword=value.trim().toLowerCase(); renderNav(keyword); if (!keyword) { $('#search-view').hidden=true; return; }
+  const keyword=value.trim().toLowerCase(); renderNav(keyword); if (!keyword) { if (!$('#search-view').hidden) setView('home'); return; }
   const foundLessons=lessons.filter(item => `${item.title} ${item.summary} ${item.track}`.toLowerCase().includes(keyword)); const foundProjects=projects.filter(item => `${item.title} ${item.goal} ${item.track}`.toLowerCase().includes(keyword));
   setView('search'); $('#search-summary').textContent=`${foundLessons.length+foundProjects.length} نتيجة لعبارة «${value.trim()}».`;
   $('#search-results').innerHTML=[...foundLessons.map(item=>`<button class="search-result" data-lesson="${item.id}" type="button"><span>درس · ${item.track}</span><b>${escapeHtml(item.title)}</b><small>${escapeHtml(item.summary)}</small></button>`),...foundProjects.map(item=>`<button class="search-result project-search" data-project="${item.id}" type="button"><span>مشروع · ${item.track}</span><b>${escapeHtml(item.title)}</b><small>${escapeHtml(item.goal)}</small></button>`)].join('') || '<p class="empty-result">لم نجد نتيجة. جرّب اسماً أقصر أو انتقل إلى قائمة المحطات.</p>';
@@ -141,12 +149,13 @@ $('#next-lesson').addEventListener('click',()=>{ const i=lessons.findIndex(item=
 document.addEventListener('click', event => { if (document.body.classList.contains('menu-open') && !event.target.closest('.sidebar') && !event.target.closest('#menu-button')) setMenuOpen(false, true); const open=event.target.closest('[data-open]'); if(open) openLesson(open.dataset.open); const view=event.target.closest('[data-view]'); if(view){ const name=view.dataset.view; if(name==='projects') openProjects(); else if(name==='challenges') openChallenges(); else if(name==='certificates') openCertificates(); else setView('home'); } });
 $('#home-button').addEventListener('click',()=>setView('home')); $('#random-lesson').addEventListener('click',()=>openLesson(lessons[Math.floor(Math.random()*lessons.length)].id));
 $('#menu-button').addEventListener('click',()=>setMenuOpen(!document.body.classList.contains('menu-open')));
-$('#focus-toggle').addEventListener('click',()=>{ const active=document.body.classList.toggle('focus-mode'); $('#focus-toggle').innerHTML=active?'◉ <span>إنهاء التركيز</span>':'◉ <span>وضع التركيز</span>'; toast(active?'وضع التركيز مفعل؛ أخفينا القوائم.':'عادت القوائم إلى مكانها.'); });
-$('#theme-toggle').addEventListener('click',()=>{ document.body.classList.toggle('dark'); const dark=document.body.classList.contains('dark'); localStorage.setItem('alsabtani-theme',dark?'dark':'light'); $('#theme-toggle').innerHTML=dark?'☀ <span>الوضع النهاري</span>':'◐ <span>الوضع الليلي</span>'; });
+$('#focus-toggle').addEventListener('click',()=>{ const active=document.body.classList.toggle('focus-mode'); $('#focus-toggle').setAttribute('aria-pressed',String(active)); $('#focus-toggle').innerHTML=active?'◉ <span>إنهاء التركيز</span>':'◉ <span>وضع التركيز</span>'; toast(active?'وضع التركيز مفعل؛ أخفينا القوائم.':'عادت القوائم إلى مكانها.'); });
+$('#theme-toggle').addEventListener('click',()=>{ document.body.classList.toggle('dark'); const dark=document.body.classList.contains('dark'); localStorage.setItem('alsabtani-theme',dark?'dark':'light'); $('#theme-toggle').setAttribute('aria-pressed',String(dark)); $('#theme-toggle').innerHTML=dark?'☀ <span>الوضع النهاري</span>':'◐ <span>الوضع الليلي</span>'; });
 $('#lesson-search').addEventListener('input',event=>searchContent(event.target.value));
+$('#learner-name').addEventListener('input',event=>saveLearnerName(event.target.value));
 $('#project-filter').addEventListener('click',event=>{const button=event.target.closest('[data-project-track]');if(button){activeProjectTrack=button.dataset.projectTrack;$('#project-detail').hidden=true;$('#project-list').hidden=false;renderProjects();}});
 $('#challenge-tabs').addEventListener('click',event=>{const button=event.target.closest('[data-challenge-track]');if(button){activeChallengeTrack=button.dataset.challengeTrack;renderChallenges();}});
 $('#close-certificate').addEventListener('click',closeCertificate); $('#certificate-modal').addEventListener('click',event=>{if(event.target===$('#certificate-modal'))closeCertificate();}); $('#print-certificate').addEventListener('click',()=>window.print());
-document.addEventListener('keydown', event => { if (event.key !== 'Escape') return; if (!$('#certificate-modal').hidden) closeCertificate(); else if (document.body.classList.contains('menu-open')) setMenuOpen(false, true); });
+document.addEventListener('keydown', event => { if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase()==='k') { event.preventDefault(); $('#lesson-search').focus(); return; } if (event.key !== 'Escape') return; if (!$('#certificate-modal').hidden) closeCertificate(); else if (document.body.classList.contains('menu-open')) setMenuOpen(false, true); });
 window.addEventListener('resize', () => { if (window.innerWidth > 980) setMenuOpen(false); });
-if(localStorage.getItem('alsabtani-theme')==='dark') $('#theme-toggle').click(); renderNav(); updateDashboard();
+if(localStorage.getItem('alsabtani-theme')==='dark') $('#theme-toggle').click(); $('#certificate-recipient').textContent=learnerName(); renderNav(); updateDashboard();
