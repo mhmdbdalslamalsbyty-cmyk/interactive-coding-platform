@@ -1,0 +1,10 @@
+{
+  "entry": "main.typ",
+  "metadata": {
+    "author": "Manus AI",
+    "subtitle": "دليل عربي عملي مع أمثلة وتمارين",
+    "title": "تعلم Python: من الصفر إلى الاحتراف"
+  },
+  "mode": "report",
+  "theme": "report-theme.typ"
+}

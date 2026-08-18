@@ -1,0 +1,7 @@
+{
+  "task_kind": "new-document",
+  "output": "pdf",
+  "signals": [],
+  "hard_constraints": ["Arabic right-to-left educational book", "HTML and CSS code examples", "chapter exercises"],
+  "content_features": {"code_blocks": 34, "defined_terms": 21, "portrait_images": 0}
+}

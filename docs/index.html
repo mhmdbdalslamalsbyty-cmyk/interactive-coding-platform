@@ -1,0 +1,99 @@
+<!doctype html>
+<!-- ورشة الإتقان: صفحة عربية ثابتة مستقلة قابلة للنشر عبر GitHub Pages. -->
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="مسار الكود: منصة عربية عملية لتعلم Python وHTML/CSS وC++." />
+  <title>مسار الكود | تعلّم واكتب وجرّب</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Kufi+Arabic:wght@500;700&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/brython@3.12.4/brython.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/brython@3.12.4/brython_stdlib.js"></script>
+</head>
+<body onload="brython()">
+  <a class="skip-link" href="#lesson-title">انتقل إلى محتوى الدرس</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="فهرس الدروس">
+      <a class="brand" href="#home" aria-label="مسار الكود: الرئيسية">
+        <img src="assets/masar-code-logo.png" alt="" aria-hidden="true" />
+        <span>مسار <b>الكود</b></span>
+      </a>
+      <div class="profile-card">
+        <span class="eyebrow">تقدمك المحفوظ محلياً</span>
+        <div class="progress-line"><span id="sidebar-progress"></span></div>
+        <strong id="progress-label">0 من 18 درساً</strong>
+      </div>
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+      <div class="sidebar-footer">اكتب سطراً، ثم شاهد فكرته تعمل.</div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button id="menu-button" class="icon-button mobile-only" type="button" aria-label="فتح الفهرس">☰</button>
+        <div class="breadcrumb"><span>مسار الكود</span><i>／</i><span id="crumb-track">البداية</span></div>
+        <div class="top-actions">
+          <button id="theme-toggle" class="theme-button" type="button" aria-label="تبديل الوضع الليلي">◐ <span>الوضع الليلي</span></button>
+          <button id="random-lesson" class="text-button" type="button">درس عشوائي</button>
+        </div>
+      </header>
+
+      <section id="home" class="home-view">
+        <div class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow orange">من القراءة إلى التنفيذ</p>
+            <h1>تعلم البرمجة <em>بيدك</em> لا بالمشاهدة فقط.</h1>
+            <p class="hero-description">دروس عربية قصيرة، محررات حية، اختبارات تتكلم معك، وكتب منظمة يمكنك تحميلها والعودة إليها متى شئت.</p>
+            <div class="hero-actions">
+              <button class="primary-button" data-open="python-basics">ابدأ أول درس <span>←</span></button>
+              <a class="quiet-link" href="#books">حمّل الكتب التعليمية</a>
+            </div>
+          </div>
+          <div class="hero-art" aria-hidden="true"><img src="assets/hero-learning-workshop.png" alt="" /></div>
+          <div class="hero-stamp"><b>18</b><span>محطة تعلم<br>وتطبيق</span></div>
+        </div>
+
+        <section class="track-section" aria-labelledby="tracks-heading">
+          <div class="section-heading"><p class="eyebrow">اختر مسارك</p><h2 id="tracks-heading">ثلاث لغات، مسار واضح</h2></div>
+          <div class="track-list">
+            <article class="track-card python"><div class="track-art" aria-hidden="true">print(<i>"فكرة"</i>)</div><div><p class="track-index">المسار 01</p><h3>Python</h3><p>ابدأ بالمنطق، البيانات، الدوال والمشاريع الصغيرة.</p><button data-open="python-basics">افتح المسار <span>←</span></button></div></article>
+            <article class="track-card web"><div class="track-art" aria-hidden="true">&lt;section&gt;<br><i>متجاوب</i><br>&lt;/section&gt;</div><div><p class="track-index">المسار 02</p><h3>HTML &amp; CSS</h3><p>ابنِ هيكلاً ذا معنى، ثم اجعله متجاوباً وواضحاً.</p><button data-open="html-structure">افتح المسار <span>←</span></button></div></article>
+            <article class="track-card cpp"><div class="track-art" aria-hidden="true">vector&lt;<i>learn</i>&gt;<br>{&nbsp;}&nbsp;</div><div><p class="track-index">المسار 03</p><h3>C++</h3><p>افهم الأداء والحاويات والذاكرة الآمنة من البداية.</p><button data-open="cpp-basics">افتح المسار <span>←</span></button></div></article>
+          </div>
+        </section>
+
+        <section id="books" class="books-section" aria-labelledby="books-title">
+          <div class="section-heading"><p class="eyebrow">مراجعك خارج المنصة</p><h2 id="books-title">الكتب التعليمية</h2><p>كل كتاب مرتب حسب الفصول ويحتوي أمثلة وتمارين عملية.</p></div>
+          <div class="books-grid">
+            <a class="book-card" href="downloads/learn-python-ar.pdf" download><span>PY</span><div><h3>تعلم Python</h3><p>الأساسيات إلى المشاريع العملية</p></div><b>تحميل PDF</b></a>
+            <a class="book-card" href="downloads/learn-html-css-ar.pdf" download><span>WEB</span><div><h3>تعلم HTML وCSS</h3><p>وسوم، تخطيط، واستجابة للشاشات</p></div><b>تحميل PDF</b></a>
+            <a class="book-card" href="downloads/learn-cpp-ar.pdf" download><span>C++</span><div><h3>تعلم C++</h3><p>الحاويات والذاكرة والكائنات</p></div><b>تحميل PDF</b></a>
+          </div>
+        </section>
+      </section>
+
+      <section id="lesson-view" class="lesson-view" hidden>
+        <div class="lesson-intro">
+          <div><p id="lesson-meta" class="eyebrow orange"></p><h1 id="lesson-title" tabindex="-1"></h1><p id="lesson-summary"></p></div>
+          <button id="complete-button" class="complete-button" type="button">وضع علامة مكتمل</button>
+        </div>
+        <div class="lesson-layout">
+          <article class="lesson-content">
+            <div class="step-label"><span>01</span> افهم الفكرة</div>
+            <div id="lesson-explanation"></div>
+            <div class="tip-box"><strong>تذكّر</strong><p id="lesson-tip"></p></div>
+            <section class="quiz" aria-labelledby="quiz-title"><div class="step-label"><span>02</span> اختبر فهمك</div><h2 id="quiz-title">اختبار قصير</h2><p id="quiz-question"></p><form id="quiz-options"></form><button id="check-quiz" class="primary-button" type="button">تحقق من الإجابة</button><p id="quiz-feedback" class="quiz-feedback" role="status"></p></section>
+          </article>
+          <aside class="code-studio" aria-label="محرر التجربة"><div class="studio-header"><div><span class="studio-dot"></span><b id="editor-label">تجربة الكود</b></div><span id="runtime-label">جاهز للتشغيل</span></div><textarea id="code-editor" dir="ltr" spellcheck="false" aria-label="محرر الكود"></textarea><div class="studio-actions"><button id="run-code" class="run-button" type="button">▶ تشغيل</button><button id="reset-code" class="text-button" type="button">استعادة المثال</button></div><pre id="code-output" aria-live="polite">اختر «تشغيل» لتظهر النتيجة هنا.</pre><iframe id="html-preview" title="معاينة HTML وCSS" sandbox="allow-scripts" hidden></iframe></aside>
+        </div>
+        <div class="lesson-footer"><button id="prev-lesson" class="nav-lesson" type="button">→ الدرس السابق</button><button id="next-lesson" class="nav-lesson accent" type="button">الدرس التالي ←</button></div>
+      </section>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="lessons/catalog.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -215,7 +215,8 @@ export default defineConfig({
     },
   },
   envDir: path.resolve(import.meta.dirname),
-  root: path.resolve(import.meta.dirname, "client"),
+  // ورشة الإتقان: المنصة المنشورة هي نسخة HTML/CSS/JS مستقلة لتتوافق مع GitHub Pages.
+  root: path.resolve(import.meta.dirname, "docs"),
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,

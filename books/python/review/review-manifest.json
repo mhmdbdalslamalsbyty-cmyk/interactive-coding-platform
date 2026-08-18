@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "pdf": "/home/ubuntu/interactive-coding-platform/books/python/تعلم_Python_من_الصفر_إلى_الاحتراف.pdf",
+  "mode": "standard",
+  "page_count": 10,
+  "selected_pages": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    8,
+    10
+  ],
+  "rendered_pages": [
+    "/home/ubuntu/interactive-coding-platform/books/python/review/pages/page-0001.png",
+    "/home/ubuntu/interactive-coding-platform/books/python/review/pages/page-0002.png",
+    "/home/ubuntu/interactive-coding-platform/books/python/review/pages/page-0003.png",
+    "/home/ubuntu/interactive-coding-platform/books/python/review/pages/page-0005.png",
+    "/home/ubuntu/interactive-coding-platform/books/python/review/pages/page-0006.png",
+    "/home/ubuntu/interactive-coding-platform/books/python/review/pages/page-0008.png",
+    "/home/ubuntu/interactive-coding-platform/books/python/review/pages/page-0010.png"
+  ],
+  "contact_sheets": [
+    "/home/ubuntu/interactive-coding-platform/books/python/review/sheets/sheet-01.jpg"
+  ],
+  "settings": {
+    "dpi": 110,
+    "columns": 3,
+    "max_sheet_pages": 12,
+    "thumbnail_width": 320
+  }
+}

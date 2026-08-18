@@ -1,0 +1,10 @@
+{
+  "entry": "main.typ",
+  "metadata": {
+    "author": "Manus AI",
+    "subtitle": "دليل عربي عملي لبناء واجهات الويب",
+    "title": "تعلم HTML وCSS: من الأساس إلى الاحتراف"
+  },
+  "mode": "report",
+  "theme": "report-theme.typ"
+}

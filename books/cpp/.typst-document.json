@@ -1,0 +1,10 @@
+{
+  "entry": "main.typ",
+  "metadata": {
+    "author": "Manus AI",
+    "subtitle": "دليل عربي عملي للبرمجة الحديثة",
+    "title": "تعلم C++: من الصفر إلى الاحتراف"
+  },
+  "mode": "report",
+  "theme": "report-theme.typ"
+}
